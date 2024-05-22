@@ -40,6 +40,19 @@ class ZoneController extends Controller
         return $this->sendCreated("Zone \"{$zone->name}\" Created Successfully", $zone);
     }
 
+    public function updateZone(Request $request, Zone $zone)
+    {
+
+        $zoneDetails = $request->validate([
+            'name' => "sometimes|string|min:4|max:32",
+            'area' => "sometimes|string"
+        ]);
+
+        $zone->update($zoneDetails);
+
+        return $this->sendCreated("Zone \"{$zone->name}\" Updated Successfully", $zone);
+    }
+
     public function deleteZone(Zone $zone)
     {
 

@@ -43,6 +43,21 @@ class ScheduleController extends Controller
         return $this->sendCreated("Schedule \"{$schedule->name}\" Created Successfully", $schedule);
     }
 
+    public function updateSchedule(Request $request, Schedule $schedule)
+    {
+        $scheduleDetails = $request->validate([
+            'name' => "sometimes|string|min:4|max:32",
+            'zone_id' => "sometimes|integer|exists:zones,id",
+            'start_time' => "sometimes|date_format:H:i:s",
+            'duration' => "sometimes|integer",
+            'days' => "sometimes|array",
+        ]);
+
+        $schedule->update($scheduleDetails);
+
+        return $this->sendSuccess("Schedule \"{$schedule->name}\" Updated Successfully", $schedule);
+    }
+
     public function deleteSchedule(Schedule $schedule)
     {
 

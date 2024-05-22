@@ -8,6 +8,7 @@ Route::prefix('zone')->group(function () {
     Route::get('', [ZoneController::class, 'getAllZones']);
     Route::get('{zone}', [ZoneController::class, 'getSingleZone']);
     Route::post('', [ZoneController::class, 'createZone']);
+    Route::patch('{zone}', [ZoneController::class, 'updateZone']);
     Route::delete('{zone}', [ZoneController::class, 'deleteZone']);
 });
 
@@ -15,5 +16,6 @@ Route::prefix('schedule')->group(function () {
     Route::get('', [ScheduleController::class, 'getAllSchedules']);
     Route::get('{schedule}', [ScheduleController::class, 'getSingleSchedule']);
     Route::post('', [ScheduleController::class, 'createSchedule']);
+    Route::patch('{schedule}', [ScheduleController::class, 'updateSchedule']);
     Route::delete('{schedule}', [ScheduleController::class, 'deleteSchedule']);
 });
