@@ -7,4 +7,5 @@ Route::prefix('zone')->group(function () {
     Route::get('', [ZoneController::class, 'getAllZones']);
     Route::get('{zone}', [ZoneController::class, 'getSingleZone']);
     Route::post('', [ZoneController::class, 'createZone']);
+    Route::delete('{zone}', [ZoneController::class, 'deleteZone']);
 });
