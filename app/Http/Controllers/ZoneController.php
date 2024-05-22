@@ -22,7 +22,7 @@ class ZoneController extends Controller
 
     public function getSingleZone(Zone $zone)
     {
-        $zone->schedules = $zone->schedules();
+        $zone->schedules = $zone->schedules;
 
         return $this->sendSuccess("Zone \"{$zone->name}\" Fetched Successfully", $zone);
     }
