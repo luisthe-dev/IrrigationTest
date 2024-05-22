@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::prefix('zone')->group(function () {
+    Route::get('', [ZoneController::class, 'getAllZones']);
+    Route::get('{zone}', [ZoneController::class, 'getSingleZone']);
+    Route::post('', [ZoneController::class, 'createZone']);
+});

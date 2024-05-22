@@ -5,62 +5,48 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreZoneRequest;
 use App\Http\Requests\UpdateZoneRequest;
 use App\Models\Zone;
+use App\Traits\Responses;
+use Illuminate\Http\Request;
 
 class ZoneController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    use Responses;
+
+    public function getAllZones()
     {
-        //
+        $zones = Zone::all();
+
+        return $this->sendSuccess("Zones Fetched Successfully", $zones);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function getSingleZone(Zone $zone)
     {
-        //
+        $zone->schedules = $zone->schedules();
+
+        return $this->sendSuccess("Zone {$zone->name} Fetched Successfully", $zone);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreZoneRequest $request)
+    public function createZone(Request $request)
     {
-        //
+
+        $zoneDetails = $request->validate([
+            'name' => "required|string|min:4|max:32",
+            'area' => "required|string"
+        ]);
+
+        $zone = Zone::create($zoneDetails);
+
+        return $this->sendCreated("Zone {$zone->name} Created Successfully", $zone);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Zone $zone)
+    public function deleteZone(Zone $zone)
     {
-        //
+
+        $zone->schedules()->delete();
+        $zone->delete();
+
+        return $this->sendSuccess("Zone {$zone->name} Deleted Successfully");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Zone $zone)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateZoneRequest $request, Zone $zone)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Zone $zone)
-    {
-        //
-    }
 }
