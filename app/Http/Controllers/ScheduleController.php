@@ -5,62 +5,49 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
 use App\Models\Schedule;
+use App\Traits\Responses;
+use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    use Responses;
+
+    public function getAllSchedules()
     {
-        //
+        $schedules = Schedule::all();
+
+        return $this->sendSuccess('Schedules Fetched Successfully', $schedules);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function getSingleSchedule(Schedule $schedule)
     {
-        //
+        $schedule->zone = $schedule->zone;
+
+        return $this->sendSuccess("Schedule \"{$schedule->name}\" Fetched Successfully", $schedule);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreScheduleRequest $request)
+    public function createSchedule(Request $request)
     {
-        //
+
+        $scheduleDetails = $request->validate([
+            'name' => "required|string|min:4|max:32",
+            'zone_id' => "required|integer|exists:zones,id",
+            'start_time' => "required|date_format:H:i:s",
+            'duration' => "required|integer",
+            'days' => "required|array",
+        ]);
+
+        $schedule = Schedule::create($scheduleDetails);
+
+        return $this->sendCreated("Schedule \"{$schedule->name}\" Created Successfully", $schedule);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Schedule $schedule)
+    public function deleteSchedule(Schedule $schedule)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Schedule $schedule)
-    {
-        //
-    }
+        $schedule->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateScheduleRequest $request, Schedule $schedule)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Schedule $schedule)
-    {
-        //
+        return $this->sendSuccess("Schedule \"{$schedule->name}\" Deleted Successfully");
     }
 }
