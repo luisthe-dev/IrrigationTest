@@ -16,9 +16,14 @@ class NotifyAdmin extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+
+    private $mailSubject;
+    private $mailMessage;
+
+    public function __construct($subject, $message)
     {
-        //
+        $this->mailSubject = $subject;
+        $this->mailMessage = $message;
     }
 
     /**
@@ -27,7 +32,7 @@ class NotifyAdmin extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Notify Admin',
+            subject: $this->mailSubject,
         );
     }
 
@@ -37,7 +42,10 @@ class NotifyAdmin extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mails.notify_admin',
+            with: [
+                "message" => $this->mailMessage
+            ]
         );
     }
 

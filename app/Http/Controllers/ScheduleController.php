@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
+use App\Mail\NotifyAdmin;
 use App\Models\Schedule;
 use App\Traits\Responses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ScheduleController extends Controller
 {
@@ -40,6 +42,10 @@ class ScheduleController extends Controller
 
         $schedule = Schedule::create($scheduleDetails);
 
+        $message = "A new schedule named {$schedule->name} has been created in {$schedule->zone->name}.";
+
+        Mail::to('admin@cashcardng.com', 'CashCard Admin')->send(new NotifyAdmin('A New Schedule Has Been Created', $message));
+
         return $this->sendCreated("Schedule \"{$schedule->name}\" Created Successfully", $schedule);
     }
 
@@ -54,6 +60,10 @@ class ScheduleController extends Controller
         ]);
 
         $schedule->update($scheduleDetails);
+
+        $message = "Schedule {$schedule->name} in {$schedule->zone->name} was updated.";
+
+        Mail::to('admin@cashcardng.com', 'CashCard Admin')->send(new NotifyAdmin('A New Schedule Has Been Created', $message));
 
         return $this->sendSuccess("Schedule \"{$schedule->name}\" Updated Successfully", $schedule);
     }
