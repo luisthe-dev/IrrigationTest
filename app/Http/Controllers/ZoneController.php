@@ -24,7 +24,7 @@ class ZoneController extends Controller
     {
         $zone->schedules = $zone->schedules;
 
-        return $this->sendSuccess("Zone \"{$zone->name}\" Fetched Successfully", $zone);
+        return $this->sendSuccess("Zone '{$zone->name}' Fetched Successfully", $zone);
     }
 
     public function createZone(Request $request)
@@ -37,7 +37,7 @@ class ZoneController extends Controller
 
         $zone = Zone::create($zoneDetails);
 
-        return $this->sendCreated("Zone \"{$zone->name}\" Created Successfully", $zone);
+        return $this->sendCreated("Zone '{$zone->name}' Created Successfully", $zone);
     }
 
     public function updateZone(Request $request, Zone $zone)
@@ -50,7 +50,7 @@ class ZoneController extends Controller
 
         $zone->update($zoneDetails);
 
-        return $this->sendCreated("Zone \"{$zone->name}\" Updated Successfully", $zone);
+        return $this->sendCreated("Zone '{$zone->name}' Updated Successfully", $zone);
     }
 
     public function deleteZone(Zone $zone)
@@ -59,7 +59,7 @@ class ZoneController extends Controller
         $zone->schedules()->delete();
         $zone->delete();
 
-        return $this->sendSuccess("Zone \"{$zone->name}\" Deleted Successfully");
+        return $this->sendSuccess("Zone '{$zone->name}' Deleted Successfully");
     }
 
 }

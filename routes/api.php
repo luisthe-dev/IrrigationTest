@@ -16,6 +16,8 @@ Route::prefix('schedule')->group(function () {
     Route::get('', [ScheduleController::class, 'getAllSchedules']);
     Route::get('{schedule}', [ScheduleController::class, 'getSingleSchedule']);
     Route::post('', [ScheduleController::class, 'createSchedule']);
+    Route::put('{schedule}/start', [ScheduleController::class, 'startSchedule']);
+    Route::put('{schedule}/stop', [ScheduleController::class, 'stopSchedule']);
     Route::patch('{schedule}', [ScheduleController::class, 'updateSchedule']);
     Route::delete('{schedule}', [ScheduleController::class, 'deleteSchedule']);
 });

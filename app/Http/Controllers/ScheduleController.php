@@ -26,7 +26,7 @@ class ScheduleController extends Controller
     {
         $schedule->zone = $schedule->zone;
 
-        return $this->sendSuccess("Schedule \"{$schedule->name}\" Fetched Successfully", $schedule);
+        return $this->sendSuccess("Schedule '{$schedule->name}' Fetched Successfully", $schedule);
     }
 
     public function createSchedule(Request $request)
@@ -46,7 +46,7 @@ class ScheduleController extends Controller
 
         Mail::to('admin@cashcardng.com', 'CashCard Admin')->send(new NotifyAdmin('A New Schedule Has Been Created', $message));
 
-        return $this->sendCreated("Schedule \"{$schedule->name}\" Created Successfully", $schedule);
+        return $this->sendCreated("Schedule '{$schedule->name}' Created Successfully", $schedule);
     }
 
     public function updateSchedule(Request $request, Schedule $schedule)
@@ -65,7 +65,7 @@ class ScheduleController extends Controller
 
         Mail::to('admin@cashcardng.com', 'CashCard Admin')->send(new NotifyAdmin('A New Schedule Has Been Created', $message));
 
-        return $this->sendSuccess("Schedule \"{$schedule->name}\" Updated Successfully", $schedule);
+        return $this->sendSuccess("Schedule '{$schedule->name}' Updated Successfully", $schedule);
     }
 
     public function deleteSchedule(Schedule $schedule)
@@ -73,6 +73,22 @@ class ScheduleController extends Controller
 
         $schedule->delete();
 
-        return $this->sendSuccess("Schedule \"{$schedule->name}\" Deleted Successfully");
+        return $this->sendSuccess("Schedule '{$schedule->name}' Deleted Successfully");
+    }
+
+    public function startSchedule(Schedule $schedule)
+    {
+        $schedule->event_status = 'watering';
+        $schedule->save();
+
+        return $this->sendSuccess("Schedule '{$schedule->name}' Has Been Started");
+    }
+
+    public function stopSchedule(Schedule $schedule)
+    {
+        $schedule->event_status = 'idle';
+        $schedule->save();
+
+        return $this->sendSuccess("Schedule '{$schedule->name}' Has Been Stopped");
     }
 }

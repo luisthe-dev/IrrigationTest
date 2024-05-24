@@ -14,7 +14,8 @@ class Schedule extends Model
         'zone_id',
         'start_time',
         'duration',
-        'days'
+        'days',
+        'event_status'
     ];
 
     protected $casts = [
